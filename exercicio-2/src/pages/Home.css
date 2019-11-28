@@ -1,3 +1,4 @@
 .lista_item {
     display: flex;
+    flex-wrap: wrap;
 }
