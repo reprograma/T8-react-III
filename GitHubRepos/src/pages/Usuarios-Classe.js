@@ -1,39 +1,45 @@
-import React, { Fragment, Component, useState } from 'react';
+import React, { Fragment, Component } from 'react';
 import Card from '../components/Card/Card';
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
 import CardUser from '../components/CardUser/CardUser';
 import { getUser, getRepos } from '../api/users';
 
-const Usuarios = props =>  {
-    const [ value, setValue ] = useState("");
-    const [ user, setUser ] = useState({});
-    const [ repos, setRepos ] = useState([]);
-    
+class Usuarios extends Component {
+    constructor() {
+        super();
+        this.state = {
+            value: "",
+            user: {
+                //dados usuario
+            },
+            repos: [
+                //dados repos
+            ]
+        }
+    }
 
-  const  valorInput = (param) => {
+    valorInput = (param) => {
         // let valor = param.target.value;
-        // this.setState({
-        //     value: param.target.value
-        // })
-        setValue(param.target.value)
+        this.setState({
+            value: param.target.value
+        })
         // console.log(this.state.value)
     }
 
- const pesquisar = () => {
+    pesquisar = () => {
 
         getUser(this.state.value).then((res) => {
          //   console.log(res.data)
-            // this.setState({
-            //     user: res.data
-            // })
-            setUser(res.data)
+            this.setState({
+                user: res.data
+            })
           //  console.log(this.state.user, 'pesquisar')
         }
         ).catch(err => console.log(err))
     }
 
-  const pesquisarRepos = (login) => {
+    pesquisarRepos = (login) => {
         getRepos(login).then(res => {
             //  console.log(res)
            // this.setState({ repos: res.data })
@@ -54,25 +60,27 @@ const Usuarios = props =>  {
         })
 
     }
-        const { login, name, avatar_url } = user;
+
+    render() {
+        const { login, name, avatar_url } = this.state.user;
         return (
             <Fragment>
                 <Input
                     placeholder="Pesquise seu produto"
                     tipo="text"
-                    pegarValorInput={valorInput}
+                    pegarValorInput={this.valorInput}
                 ></Input>
                 <Button
-                    click={pesquisar}
+                    click={this.pesquisar}
                 >Pesquisar</Button>
                 <div className="lista_item">
 
-                    {user.login ?
+                    {this.state.user.login ?
                         <CardUser
                             img={avatar_url}
                             user={login}
                             name={name}
-                            clicar={() => pesquisarRepos(user.login)}
+                            clicar={() => this.pesquisarRepos(this.state.user.login)}
                         />
                         : <p>Pesquise um usuário</p>}
                 </div>
@@ -90,5 +98,5 @@ const Usuarios = props =>  {
             </Fragment>
         )
     }
-
+};
 export default Usuarios;

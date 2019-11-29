@@ -1,7 +1,7 @@
 import config from './config';
 
 function getUser(nomeUsuario) {
-    //const url = '/users/adrianafernandes';
+   // const url = '/users/adrianafernandes';
     //  return config.get(`/users/${nomeDoUsuario}`);
   //  console.log(nomeUsuario, 'estou dentro do users')
     const url = `/users/${nomeUsuario}`;
